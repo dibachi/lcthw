@@ -10,7 +10,10 @@ vim sucks. I hate vim. Nano, you're ok but you're on thin ice.
 Makefiles are sensitive to types of whitespace
 "make all" corresponds to "make" and vice versa, as long as there's a "make all" defined in the makefile
 
-running linux on a VM w/ Windows host means I can use VS Code as my text editor. I love that 
+running linux on a VM w/ Windows host means I can use VS Code as my text editor. I love that: 
+
 a) I can see the text I'm editing
+
 b) the text editor makes it easy to edit the text, for it is a text editor
+
 c) I don't have to crack the da vinci code to save a file or to type something in. Why do programmers insist on suffering?
