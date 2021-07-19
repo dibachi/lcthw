@@ -29,7 +29,9 @@ void Person_destroy(struct Person *who)
 {
     assert(who != NULL);
     free(who->name);
+    printf("Got here 0. \n");
     free(who);
+    printf("Got here 1. \n");
 }
 
 void Person_print(struct Person *who)

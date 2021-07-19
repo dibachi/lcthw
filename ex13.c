@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+
+extern int errno;
 
 int main(int argc, char *argv[])
 {
@@ -10,7 +15,13 @@ int main(int argc, char *argv[])
     for (i = 1; i < argc; i++) {
         printf("arg %d: %s \n", i, argv[i]);
     }
-    int test = argv[1];
+    
+    if (argc == 1) {
+        printf("BRO WHAT ARE YOU DOING YOU CAN'T JUST LEAVE IT BLANK \n");
+        return 1;
+    }
+    char test = argv[1][0];
+    
     switch (test) {
 
         case 'a':
@@ -18,7 +29,10 @@ int main(int argc, char *argv[])
             for (i = 0; i < 27; i++) {
                 printf("%c \n", alphabet[i]);
             }
-        break;
+            break;
+        default:
+            printf("I just wanna make sure we got here. \n");
+            break;
     }
     char *states[] = {
         "CA", "OR", "WI", "MA"

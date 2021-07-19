@@ -10,14 +10,14 @@ struct Person {
     int age;
     int height;
     int weight;
-} who;
+};
 
 struct Person Person_create(char *name, int age, int height, int weight)
 {
-    //struct Person *who = malloc(sizeof(struct Person));
+    struct Person who;
     //assert(who != NULL);
 
-    who.name = strdup(name);
+    who.name = name;
     who.age = age;
     who.height = height;
     who.weight = weight;
