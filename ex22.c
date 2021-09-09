@@ -20,6 +20,8 @@ void set_age(int age)
 
 double update_ratio(double new_ratio)
 {
+    //static allows the function to "remember" the value from the previous
+    //function call. this function does not work otherwise
     static double ratio = 1.0;
     double old_ratio = ratio;
     ratio = new_ratio;
