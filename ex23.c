@@ -2,20 +2,34 @@
 #include <stdio.h>
 #include <string.h>
 #include "dbg.h"
+#include <time.h>
 
-#define LENGTH 995
+#define LENGTH 99995
 
 int normal_copy(char *from, char *to, int count)
 {
+    int start = clock();
     int i = 0;
     for (i=0; i<count; i++) {
         to[i] = from[i];
     }
+    int end = clock();
+    log_info("normal_copy time: %f", ((float)(end-start)));
     return i;
+}
+
+int memmove_copy(char *from, char *to, int count)
+{
+    int start = clock();
+    from = memmove(to, from, count);
+    int end = clock();
+    log_info("memmove_copy time: %f", ((float)(end-start)));
+    return count;
 }
 
 int duffs_device(char *from, char *to, int count)
 {
+    int start = clock();
     {
         int n = (count + 7)/8;
         switch (count%8) {
@@ -24,7 +38,7 @@ int duffs_device(char *from, char *to, int count)
                     *to++ = *from++;
                     case 7:
                     *to++ = *from++;
-                    log_info("Hey dude. 7.");
+                    //log_info("Hey dude. 7.");
                     case 6:
                     *to++ = *from++;
                     case 5:
@@ -33,7 +47,7 @@ int duffs_device(char *from, char *to, int count)
                     *to++ = *from++;
                     case 3:
                     *to++ = *from++;
-                    log_info("Hey dude. 3.");
+                    //log_info("Hey dude. 3.");
                     case 2:
                     *to++ = *from++;
                     case 1:
@@ -41,12 +55,15 @@ int duffs_device(char *from, char *to, int count)
                 } while (--n > 0);
         }
     }
-    log_info("Hey this works.");
+    //log_info("Hey this works.");
+    int end = clock();
+    log_info("Duff's device time: %f", ((float)(end-start)));
     return count;
 }
 
 int zeds_device(char *from, char *to, int count)
 {
+    int start = clock();
     {
         int n = (count + 7)/8;
 
@@ -72,7 +89,9 @@ again:      *to++ = *from++;
                 goto again;
         }
     }
-    log_info("Hey Zed's thing works, too.");
+    //log_info("Hey Zed's thing works, too.");
+    int end = clock();
+    log_info("Zed's's device time: %f", ((float)(end-start)));
     return count;
 }
 
@@ -100,9 +119,17 @@ int main(int argc, char *argv[])
     memset(to, 'y', LENGTH);
     check(valid_copy(to, LENGTH, 'y'), "Not initialized properly.");
 
+    //use memmove to copy to
+    rc = memmove_copy(from, to, LENGTH);
+    check(rc == LENGTH, "Memmove failed: %d", rc);
+    check(valid_copy(to, LENGTH, 'x'), "Memmove copy failed.");
+
+    //reset
+    memset(to, 'y', LENGTH);
+
     //use normal copy to
     rc = normal_copy(from, to, LENGTH);
-    check(rc == LENGTH, "Normal copy failed: %d", rc);
+    check(rc == LENGTH, "Normal failed: %d", rc);
     check(valid_copy(to, LENGTH, 'x'), "Normal copy failed.");
 
     //reset
